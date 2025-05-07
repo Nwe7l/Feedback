@@ -167,16 +167,24 @@
       </a>
     </div>
 
+    <!-- Language Switch -->
+    <div style="margin-bottom: 20px;">
+      <button class="button" onclick="setLanguage('en')">English</button>
+      <button class="button" onclick="setLanguage('ar')">العربية</button>
+    </div>
+
+    <!-- Guidance Button -->
     <button class="button" onclick="window.open('https://www.youtube.com/watch?v=YOUR_VIDEO_ID', '_blank')">Guidance</button>
 
+    <!-- Feedback Form -->
     <form action="https://formspree.io/f/xrbqqbdp" method="POST">
-      <h2>We value your feedback</h2>
+      <h2 class="text-feedback-title">We value your feedback</h2>
 
-      <textarea name="message" placeholder="Write your message here..." required></textarea>
+      <textarea name="message" class="text-feedback-message" placeholder="Write your message here..." required></textarea>
 
-      <input type="tel" name="phone" placeholder="Enter your phone number" />
+      <input type="tel" name="phone" class="text-feedback-phone" placeholder="Enter your phone number" />
 
-      <button class="submit-btn" type="submit">Send</button>
+      <button class="submit-btn text-submit-btn" type="submit">Send</button>
 
       <div class="circle-links">
         <a class="circle-button" href="https://www.wavestech.om/?fbclid=PAZXh0bgNhZW0CMTEAAae4DfSAedI1kxBXJ6JY-Nuzb6tZzzOCQg31REWw9ynHwT-VbnWUSoRat-818g_aem_1M2VMH6kFX-6OqxeDp3oOg#" target="_blank" title="Website">🌐</a>
@@ -192,6 +200,35 @@
   <script>
     window.addEventListener('load', function () {
       document.querySelector('.loader-wrapper').style.display = 'none';
+    });
+
+    const translations = {
+      en: {
+        title: "We value your feedback",
+        messagePlaceholder: "Write your message here...",
+        phonePlaceholder: "Enter your phone number",
+        send: "Send"
+      },
+      ar: {
+        title: "نحن نقدر ملاحظاتك",
+        messagePlaceholder: "اكتب رسالتك هنا...",
+        phonePlaceholder: "أدخل رقم هاتفك",
+        send: "إرسال"
+      }
+    };
+
+    function setLanguage(lang) {
+      document.documentElement.lang = lang;
+      document.body.dir = lang === "ar" ? "rtl" : "ltr";
+
+      document.querySelector(".text-feedback-title").innerText = translations[lang].title;
+      document.querySelector(".text-feedback-message").placeholder = translations[lang].messagePlaceholder;
+      document.querySelector(".text-feedback-phone").placeholder = translations[lang].phonePlaceholder;
+      document.querySelector(".text-submit-btn").innerText = translations[lang].send;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      setLanguage('en');
     });
   </script>
 </body>
