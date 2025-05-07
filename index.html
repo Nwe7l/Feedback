@@ -151,6 +151,28 @@
       height: 24px;
       fill: white;
     }
+
+    /* Voice Button */
+    #voiceButton {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10000;
+      background-color: #3498db;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    #voiceButton:hover {
+      background-color: #2980b9;
+    }
   </style>
 </head>
 <body>
@@ -189,10 +211,41 @@
     </form>
   </div>
 
+  <!-- Voicebot Microphone Button -->
+  <button id="voiceButton" title="Talk to AI">🎤</button>
+
+  <!-- Scripts -->
   <script>
     window.addEventListener('load', function () {
       document.querySelector('.loader-wrapper').style.display = 'none';
     });
+
+    const voiceBtn = document.getElementById('voiceButton');
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    voiceBtn.addEventListener('click', () => {
+      recognition.start();
+      voiceBtn.innerText = '🎙️';
+    });
+
+    recognition.onresult = function(event) {
+      const transcript = event.results[0][0].transcript;
+      console.log('You said:', transcript);
+      voiceBtn.innerText = '🎤';
+
+      const utterance = new SpeechSynthesisUtterance(`You said: ${transcript}`);
+      speechSynthesis.speak(utterance);
+    };
+
+    recognition.onerror = function(event) {
+      console.error('Speech recognition error', event.error);
+      voiceBtn.innerText = '🎤';
+    };
   </script>
 </body>
 </html>
