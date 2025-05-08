@@ -88,7 +88,7 @@
       color: #333;
     }
 
-    textarea, input {
+    textarea, input, select {
       width: 100%;
       padding: 15px;
       font-size: 16px;
@@ -175,6 +175,23 @@
       <textarea name="message" placeholder="Write your message here..." required></textarea>
 
       <input type="tel" name="phone" placeholder="Enter your phone number" />
+
+      <select name="region" required>
+        <option value="">Select your region</option>
+        <option value="Muscat">Muscat</option>
+        <option value="Dhofar">Dhofar</option>
+        <option value="Musandam">Musandam</option>
+        <option value="Al Batinah North">Al Batinah North</option>
+        <option value="Al Batinah South">Al Batinah South</option>
+        <option value="Al Dakhiliyah">Al Dakhiliyah</option>
+        <option value="Al Wusta">Al Wusta</option>
+        <option value="Al Dhahirah">Al Dhahirah</option>
+        <option value="Al Sharqiyah North">Al Sharqiyah North</option>
+        <option value="Al Sharqiyah South">Al Sharqiyah South</option>
+        <option value="Al Buraimi">Al Buraimi</option>
+      </select>
+
+      <input type="text" name="school" placeholder="Enter your school name" />
 
       <button class="submit-btn" type="submit">Send</button>
 
