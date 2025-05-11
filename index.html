@@ -3,174 +3,95 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>WavesTech Services & Feedback</title>
+  <title>Waves Technology - Login</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-      background: #f4f4f4;
-    }
-
-    .section {
-      display: none;
-      padding: 20px;
-    }
-
-    .active {
-      display: block;
-    }
-
-    .iframe-container {
-      width: 100%;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       height: 100vh;
     }
 
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .centered {
-      text-align: center;
-      padding: 20px;
-    }
-
-    button {
-      padding: 12px 25px;
-      font-size: 16px;
-      background-color: #3498db;
-      color: white;
-      border: none;
+    .login-container {
+      background-color: #fff;
+      padding: 40px;
       border-radius: 8px;
-      cursor: pointer;
-      margin: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
     }
 
-    button:hover {
-      background-color: #2980b9;
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
     }
 
-    .options {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    /* Reuse your provided feedback form styling here */
-    .feedback-container {
-      background: white;
-      max-width: 600px;
-      margin: auto;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    textarea, input, select {
+    .login-container input[type="email"],
+    .login-container input[type="password"] {
       width: 100%;
       padding: 10px;
-      margin: 10px 0;
-      border-radius: 6px;
+      margin: 5px 0 15px 0;
       border: 1px solid #ccc;
+      border-radius: 4px;
     }
 
-    .submit-btn {
+    .login-container button {
+      width: 100%;
+      padding: 10px;
       background-color: #3498db;
-      color: white;
       border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
+      color: white;
+      border-radius: 4px;
       cursor: pointer;
     }
 
-    .submit-btn:hover {
+    .login-container button:hover {
       background-color: #2980b9;
+    }
+
+    .login-container .options {
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .login-container .options a {
+      color: #3498db;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .login-container .options a:hover {
+      text-decoration: underline;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+      color: #888;
     }
   </style>
 </head>
 <body>
 
-  <!-- Section 1: Company Website -->
-  <div id="home" class="section active">
-    <div class="iframe-container">
-      <iframe src="https://www.wavestech.om/"></iframe>
-    </div>
-    <div class="centered">
-      <button onclick="showOptions()">Click to Continue</button>
-    </div>
-  </div>
-
-  <!-- Section 2: Choose Feedback or Custom -->
-  <div id="options" class="section">
-    <div class="centered">
-      <h2>Select an Option</h2>
-      <div class="options">
-        <button onclick="showSection('feedback')">Feedback</button>
-        <button onclick="showSection('custom')">Custom Code</button>
-      </div>
+  <div class="login-container">
+    <h2>Sign in to Your Account</h2>
+    <form action="#" method="post">
+      <input type="email" name="email" placeholder="Email Address" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+    <div class="options">
+      <a href="#">Forgot Your Password?</a>
     </div>
   </div>
 
-  <!-- Section 3: Feedback -->
-  <div id="feedback" class="section">
-    <div class="feedback-container">
-      <h2>We value your feedback</h2>
-      <form action="https://formspree.io/f/xrbqqbdp" method="POST">
-        <textarea name="message" placeholder="Write your message here..." required></textarea>
-        <input type="tel" name="phone" placeholder="Phone number" />
-        <select name="region" required>
-          <option value="">Select region</option>
-          <option value="Muscat">Muscat</option>
-          <option value="Dhofar">Dhofar</option>
-          <option value="Musandam">Musandam</option>
-          <option value="Al Batinah North">Al Batinah North</option>
-          <option value="Al Batinah South">Al Batinah South</option>
-          <option value="Al Dakhiliyah">Al Dakhiliyah</option>
-          <option value="Al Wusta">Al Wusta</option>
-          <option value="Al Dhahirah">Al Dhahirah</option>
-          <option value="Al Sharqiyah North">Al Sharqiyah North</option>
-          <option value="Al Sharqiyah South">Al Sharqiyah South</option>
-          <option value="Al Buraimi">Al Buraimi</option>
-        </select>
-        <input type="text" name="school" placeholder="Enter your school name" required />
-        <button type="submit" class="submit-btn">Send</button>
-      </form>
-      <div class="centered">
-        <button onclick="showSection('options')">Back</button>
-      </div>
-    </div>
+  <div class="footer">
+    &copy; 2025 INVENTORY SYSTEM - All Rights Reserved
   </div>
 
-  <!-- Section 4: Custom Code -->
-  <div id="custom" class="section">
-    <div class="centered">
-      <h2>Custom Code Area</h2>
-      <p>You can place any custom code or widget here.</p>
-      <p>This section uses the HTML you previously provided.</p>
-      <!-- Add your custom HTML elements if needed -->
-      <button onclick="showSection('options')">Back</button>
-    </div>
-  </div>
-
-  <script>
-    function showOptions() {
-      document.getElementById('home').classList.remove('active');
-      document.getElementById('options').classList.add('active');
-    }
-
-    function showSection(id) {
-      const sections = ['home', 'options', 'feedback', 'custom'];
-      sections.forEach(sec => {
-        document.getElementById(sec).classList.remove('active');
-      });
-      document.getElementById(id).classList.add('active');
-    }
-  </script>
 </body>
 </html>
