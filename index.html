@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Inventory Dashboard</title>
   <style>
+    /* General body styles */
     body {
       font-family: 'Arial', sans-serif;
       margin: 0;
@@ -149,6 +150,25 @@
       font-size: 18px;
     }
 
+    /* Progress bar */
+    .progress-bar {
+      width: 100%;
+      background-color: #f3f3f3;
+      border-radius: 5px;
+      margin-top: 10px;
+      height: 20px;
+    }
+
+    .progress-bar .progress {
+      height: 100%;
+      border-radius: 5px;
+    }
+
+    .card span {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
     /* Form */
     form {
       background: white;
@@ -259,14 +279,23 @@
         <div class="card">
           <h3>Total Items</h3>
           <p id="total-items">0</p>
+          <div class="progress-bar">
+            <div class="progress" style="width: 50%; background-color: #3498db;"></div>
+          </div>
         </div>
         <div class="card">
           <h3>Completed Items</h3>
           <p id="completed-items">0</p>
+          <div class="progress-bar">
+            <div class="progress" style="width: 70%; background-color: #2ecc71;"></div>
+          </div>
         </div>
         <div class="card">
           <h3>Pending Items</h3>
           <p id="pending-items">0</p>
+          <div class="progress-bar">
+            <div class="progress" style="width: 30%; background-color: #e74c3c;"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -379,6 +408,11 @@
       document.getElementById("total-items").innerText = total;
       document.getElementById("completed-items").innerText = completed;
       document.getElementById("pending-items").innerText = pending;
+
+      // Update progress bars
+      document.querySelector('.card:nth-child(1) .progress').style.width = `${(total / 10) * 100}%`;
+      document.querySelector('.card:nth-child(2) .progress').style.width = `${(completed / 10) * 100}%`;
+      document.querySelector('.card:nth-child(3) .progress').style.width = `${(pending / 10) * 100}%`;
     }
 
     function logout() {
@@ -394,13 +428,11 @@
       document.querySelector(".sidebar").classList.toggle("light-theme");
       document.querySelector(".navbar").classList.toggle("light-theme");
     }
-
-    window.onload = () => {
-      currentUser = admin;
-      document.getElementById("user-name").innerText = currentUser.userName;
-      updateStats();
-      showSection('dashboard');
-    };
-  </script>
-</body>
-</html>
+    window.onload
+= () => {
+showSection("dashboard");
+updateStats();
+}
+</script>
+</body> 
+</html> `
