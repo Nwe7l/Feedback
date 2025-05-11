@@ -1,137 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Inventory Login Portal</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Warehouse Inventory Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f2f5;
       margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 400px;
-      padding: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      display: none;
-    }
-
-    .container.active {
-      display: block;
-    }
-
-    h2 {
-      text-align: center;
-      color: #333;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #3498db;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #2980b9;
-    }
-
-    .error {
-      color: red;
-      text-align: center;
-      margin-top: 10px;
+      font-family: Arial, sans-serif;
+      background-color: #1e2a38;
+      color: #fff;
     }
 
     .dashboard {
-      text-align: center;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 20px;
+      padding: 20px;
     }
 
-    .logout-btn {
+    .card {
+      background-color: #2f3e4e;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+    }
+
+    .big-number {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: #00d4ff;
+    }
+
+    .region-sales {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .region-sales span {
+      background: #00d4ff;
+      padding: 5px;
+      border-radius: 4px;
+      color: #000;
+    }
+
+    .score-ring {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
       margin-top: 20px;
-      background-color: #e74c3c;
     }
 
-    .logout-btn:hover {
-      background-color: #c0392b;
+    canvas {
+      background-color: #fff;
+      border-radius: 10px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
+  <h1 style="text-align:center; padding-top: 20px;">Weekly Inventory Dashboard</h1>
 
-  <!-- Sign In Page -->
-  <div class="container active" id="login-section">
-    <h2>Sign In</h2>
-    <input type="email" id="email" placeholder="Email" />
-    <input type="password" id="password" placeholder="Password" />
-    <button onclick="login()">Login</button>
-    <div class="error" id="error-message"></div>
-  </div>
+  <div class="dashboard">
+    <div class="card">
+      <h3>Revenue</h3>
+      <div class="big-number">$92,463</div>
+    </div>
 
-  <!-- Dashboard Page -->
-  <div class="container" id="dashboard-section">
-    <h2 id="dashboard-title"></h2>
-    <div class="dashboard" id="dashboard-content"></div>
-    <button class="logout-btn" onclick="logout()">Logout</button>
+    <div class="card">
+      <h3>Production Output</h3>
+      <div class="big-number">315</div>
+    </div>
+
+    <div class="card">
+      <h3>Customer Satisfaction</h3>
+      <div class="big-number">91%</div>
+    </div>
+
+    <div class="card">
+      <h3>Employee Attendance</h3>
+      <div class="big-number">96%</div>
+    </div>
+
+    <div class="card">
+      <h3>Total Products Sold</h3>
+      <div class="big-number">364</div>
+    </div>
+
+    <div class="card">
+      <h3>Product Sales by Region</h3>
+      <div class="region-sales">
+        <span>Region 1: 70</span>
+        <span>Region 2: 103</span>
+        <span>Region 3: 116</span>
+        <span>Region 4: 35</span>
+        <span>Region 5: 40</span>
+      </div>
+    </div>
+
+    <div class="card" style="grid-column: span 3;">
+      <h3>Website Traffic</h3>
+      <canvas id="trafficChart"></canvas>
+    </div>
+
+    <div class="card" style="grid-column: span 3;">
+      <h3>Scores</h3>
+      <div class="score-ring">
+        <canvas id="score1" width="100" height="100"></canvas>
+        <canvas id="score2" width="100" height="100"></canvas>
+        <canvas id="score3" width="100" height="100"></canvas>
+        <canvas id="score4" width="100" height="100"></canvas>
+        <canvas id="score5" width="100" height="100"></canvas>
+      </div>
+    </div>
   </div>
 
   <script>
-    const admin = { email: "admin@wavestech.com", password: "123" };
-    const customer = { email: "omantel@omantel.com", password: "123" };
-
-    function login() {
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
-      const error = document.getElementById("error-message");
-
-      if (email === admin.email && password === admin.password) {
-        showDashboard("Admin");
-      } else if (email === customer.email && password === customer.password) {
-        showDashboard("Customer");
-      } else {
-        error.textContent = "Invalid email or password!";
+    const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+    new Chart(trafficCtx, {
+      type: 'line',
+      data: {
+        labels: ['06/19', '06/20', '06/21', '06/22', '06/23', '06/24', '06/25'],
+        datasets: [
+          {
+            label: 'Website Visits',
+            data: [100, 120, 90, 130, 110, 60, 140],
+            borderColor: '#00d4ff',
+            fill: false
+          },
+          {
+            label: 'Page Views',
+            data: [50, 60, 40, 55, 45, 30, 50],
+            borderColor: '#ffffff',
+            fill: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { labels: { color: '#fff' } } },
+        scales: {
+          x: { ticks: { color: '#fff' } },
+          y: { ticks: { color: '#fff' } }
+        }
       }
-    }
+    });
 
-    function showDashboard(role) {
-      document.getElementById("login-section").classList.remove("active");
-      document.getElementById("dashboard-section").classList.add("active");
-
-      document.getElementById("dashboard-title").textContent = `Welcome, ${role}`;
-      document.getElementById("dashboard-content").innerHTML = role === "Admin"
-        ? "<p>This is the Admin Dashboard. You can manage inventory here.</p>"
-        : "<p>This is the Customer Dashboard. You can view products here.</p>";
-    }
-
-    function logout() {
-      document.getElementById("dashboard-section").classList.remove("active");
-      document.getElementById("login-section").classList.add("active");
-      document.getElementById("email").value = '';
-      document.getElementById("password").value = '';
-      document.getElementById("error-message").textContent = '';
-    }
+    const scores = [85, 73, 92, 54, 75];
+    scores.forEach((score, i) => {
+      const ctx = document.getElementById('score' + (i + 1)).getContext('2d');
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          datasets: [{
+            data: [score, 100 - score],
+            backgroundColor: ['#00d4ff', '#2f3e4e'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          cutout: '70%',
+          plugins: {
+            tooltip: { enabled: false },
+            legend: { display: false },
+            title: {
+              display: true,
+              text: score,
+              color: '#00d4ff',
+              font: { size: 20 }
+            }
+          }
+        }
+      });
+    });
   </script>
-
 </body>
 </html>
