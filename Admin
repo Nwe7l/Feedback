@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #e0f7fa;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #00796b;
+    }
+
+    .content {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome, Admin</h1>
+  <div class="content">
+    <p>This is the admin inventory dashboard.</p>
+    <!-- Add inventory management functions here -->
+  </div>
+</body>
+</html>
