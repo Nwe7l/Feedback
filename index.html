@@ -3,102 +3,188 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Inventory Login Portal</title>
+  <title>Inventory Dashboard</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f2f5;
+      font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
       display: flex;
-      justify-content: center;
-      align-items: center;
       height: 100vh;
+      background-color: #f4f6f9;
     }
 
-    .container {
-      width: 100%;
-      max-width: 400px;
-      padding: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      display: none;
-    }
-
-    .container.active {
-      display: block;
-    }
-
-    h2 {
-      text-align: center;
-      color: #333;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #3498db;
+    /* Sidebar Styling */
+    .sidebar {
+      width: 250px;
+      background-color: #2c3e50;
       color: white;
-      border: none;
-      border-radius: 4px;
-      font-size: 16px;
+      padding-top: 20px;
+      position: fixed;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .sidebar ul li:hover {
+      background-color: #34495e;
       cursor: pointer;
     }
 
-    button:hover {
+    .sidebar ul li.active {
+      background-color: #1abc9c;
+    }
+
+    .sidebar ul li a {
+      text-decoration: none;
+      color: white;
+      display: block;
+    }
+
+    .sidebar ul li a:hover {
+      color: #ecf0f1;
+    }
+
+    /* Main content area */
+    .main-content {
+      margin-left: 250px;
+      width: 100%;
+      padding: 20px;
+      background-color: #ecf0f1;
+      height: 100%;
+      overflow-y: auto;
+    }
+
+    .navbar {
       background-color: #2980b9;
+      color: white;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .error {
-      color: red;
-      text-align: center;
-      margin-top: 10px;
+    .navbar .user {
+      font-size: 18px;
     }
 
-    .dashboard {
+    .dashboard-header {
       text-align: center;
+      margin-top: 20px;
+    }
+
+    .card-container {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 40px;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      width: 200px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h3 {
+      margin-bottom: 20px;
+    }
+
+    .card p {
+      font-size: 20px;
+      font-weight: bold;
     }
 
     .logout-btn {
-      margin-top: 20px;
       background-color: #e74c3c;
+      color: white;
+      padding: 10px;
+      width: 150px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 40px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .logout-btn:hover {
       background-color: #c0392b;
     }
+
   </style>
 </head>
 <body>
 
-  <!-- Sign In Page -->
-  <div class="container active" id="login-section">
-    <h2>Sign In</h2>
-    <input type="email" id="email" placeholder="Email" />
-    <input type="password" id="password" placeholder="Password" />
-    <button onclick="login()">Login</button>
-    <div class="error" id="error-message"></div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Inventory</h2>
+    <ul>
+      <li class="active"><a href="#" onclick="showDashboard()">Dashboard</a></li>
+      <li><a href="#">Manage Items</a></li>
+      <li><a href="#">Reports</a></li>
+      <li><a href="#">Settings</a></li>
+    </ul>
   </div>
 
-  <!-- Dashboard Page -->
-  <div class="container" id="dashboard-section">
-    <h2 id="dashboard-title"></h2>
-    <div class="dashboard" id="dashboard-content"></div>
-    <button class="logout-btn" onclick="logout()">Logout</button>
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Top Navbar -->
+    <div class="navbar">
+      <span class="navbar-title">Inventory Dashboard</span>
+      <span class="user">Welcome, <strong id="user-name"></strong></span>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div id="dashboard-content">
+      <div class="dashboard-header">
+        <h2>Dashboard</h2>
+        <p>Overview of your inventory</p>
+      </div>
+
+      <!-- Dashboard Stats -->
+      <div class="card-container">
+        <div class="card">
+          <h3>Total Items</h3>
+          <p id="total-items">0</p>
+        </div>
+        <div class="card">
+          <h3>Completed Items</h3>
+          <p id="completed-items">0</p>
+        </div>
+        <div class="card">
+          <h3>Pending Items</h3>
+          <p id="pending-items">0</p>
+        </div>
+      </div>
+
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
   </div>
 
   <script>
-    const admin = { email: "admin@wavestech.com", password: "123", totalItems: 100, completedItems: 75 };
-    const customer = { email: "omantel@omantel.com", password: "123", totalItems: 50, completedItems: 30 };
+    const admin = { email: "admin@wavestech.com", password: "123", totalItems: 100, completedItems: 75, userName: "Admin" };
+    const customer = { email: "omantel@omantel.com", password: "123", totalItems: 50, completedItems: 30, userName: "Customer" };
+
+    let currentUser = null;
 
     function login() {
       const email = document.getElementById("email").value.trim();
@@ -106,32 +192,36 @@
       const error = document.getElementById("error-message");
 
       if (email === admin.email && password === admin.password) {
-        showDashboard("Admin", admin.totalItems, admin.completedItems);
+        currentUser = admin;
+        showDashboard();
       } else if (email === customer.email && password === customer.password) {
-        showDashboard("Customer", customer.totalItems, customer.completedItems);
+        currentUser = customer;
+        showDashboard();
       } else {
         error.textContent = "Invalid email or password!";
       }
     }
 
-    function showDashboard(role, totalItems, completedItems) {
-      document.getElementById("login-section").classList.remove("active");
-      document.getElementById("dashboard-section").classList.add("active");
-
-      document.getElementById("dashboard-title").textContent = `Welcome, ${role}`;
-      document.getElementById("dashboard-content").innerHTML = `
-        <p>Total Items: ${totalItems}</p>
-        <p>Completed Items: ${completedItems}</p>
-      `;
+    function showDashboard() {
+      if (currentUser) {
+        document.querySelector('.navbar-title').innerText = `${currentUser.userName} Dashboard`;
+        document.getElementById("user-name").innerText = currentUser.userName;
+        document.getElementById("total-items").innerText = currentUser.totalItems;
+        document.getElementById("completed-items").innerText = currentUser.completedItems;
+        document.getElementById("pending-items").innerText = currentUser.totalItems - currentUser.completedItems;
+      }
     }
 
     function logout() {
-      document.getElementById("dashboard-section").classList.remove("active");
-      document.getElementById("login-section").classList.add("active");
-      document.getElementById("email").value = '';
-      document.getElementById("password").value = '';
-      document.getElementById("error-message").textContent = '';
+      currentUser = null;
+      document.querySelector('.navbar-title').innerText = "Inventory Dashboard";
+      document.getElementById("user-name").innerText = "";
+      document.getElementById("total-items").innerText = 0;
+      document.getElementById("completed-items").innerText = 0;
+      document.getElementById("pending-items").innerText = 0;
+      alert("Logged out successfully.");
     }
+
   </script>
 
 </body>
