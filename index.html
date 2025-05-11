@@ -82,6 +82,7 @@
       display: flex;
       justify-content: space-around;
       margin-top: 40px;
+      flex-wrap: wrap;
     }
 
     .card {
@@ -90,19 +91,38 @@
       padding: 20px;
       width: 200px;
       text-align: center;
+      margin: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin: auto;
     }
 
     form input, form select, form button {
       padding: 10px;
-      margin: 5px;
+      margin: 5px 0;
       font-size: 14px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    form label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       background: white;
+      margin-top: 20px;
     }
 
     table, th, td {
@@ -176,20 +196,26 @@
     </div>
 
     <!-- Manage Items Section -->
-    <div id="manage-items-section" style="display: none;">
+    <div id="manage-section" style="display: none;">
       <div class="dashboard-header">
         <h2>Manage Items</h2>
         <p>Add and track inventory items</p>
       </div>
 
       <form onsubmit="addItem(event)">
-        <input type="text" id="item-name" placeholder="Item Name" required />
-        <input type="number" id="item-qty" placeholder="Quantity" required />
-        <select id="item-status">
+        <label>Item Name:</label>
+        <input type="text" id="item-name" placeholder="Enter item name" required />
+
+        <label>Quantity:</label>
+        <input type="number" id="item-qty" placeholder="Enter quantity" min="1" required />
+
+        <label>Status:</label>
+        <select id="item-status" required>
           <option value="Completed">Completed</option>
           <option value="Pending">Pending</option>
         </select>
-        <button type="submit">Add Item</button>
+
+        <button type="submit" style="background-color: #2ecc71; color: white; border: none; border-radius: 4px;">Add Item</button>
       </form>
 
       <table>
@@ -232,12 +258,11 @@
     let items = [];
 
     function showSection(section, el) {
-      document.getElementById("dashboard-section").style.display = "none";
-      document.getElementById("manage-items-section").style.display = "none";
-      document.getElementById("reports-section").style.display = "none";
-      document.getElementById("settings-section").style.display = "none";
-
-      document.getElementById(section + "-section").style.display = "block";
+      const sections = ["dashboard", "manage", "reports", "settings"];
+      sections.forEach(s => {
+        document.getElementById(`${s}-section`).style.display = "none";
+      });
+      document.getElementById(`${section}-section`).style.display = "block";
 
       document.querySelectorAll(".sidebar ul li").forEach(li => li.classList.remove("active"));
       if (el) el.parentElement.classList.add("active");
@@ -287,13 +312,12 @@
       alert("Logged out.");
     }
 
-    // Simulate login for demo
     window.onload = () => {
       currentUser = admin;
       document.getElementById("user-name").innerText = currentUser.userName;
       updateStats();
       showSection('dashboard');
-    }
+    };
   </script>
 
 </body>
