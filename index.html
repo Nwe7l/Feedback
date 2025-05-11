@@ -97,8 +97,8 @@
   </div>
 
   <script>
-    const admin = { email: "admin@wavestech.com", password: "123" };
-    const customer = { email: "omantel@omantel.com", password: "123" };
+    const admin = { email: "admin@wavestech.com", password: "123", totalItems: 100, completedItems: 75 };
+    const customer = { email: "omantel@omantel.com", password: "123", totalItems: 50, completedItems: 30 };
 
     function login() {
       const email = document.getElementById("email").value.trim();
@@ -106,22 +106,23 @@
       const error = document.getElementById("error-message");
 
       if (email === admin.email && password === admin.password) {
-        showDashboard("Admin");
+        showDashboard("Admin", admin.totalItems, admin.completedItems);
       } else if (email === customer.email && password === customer.password) {
-        showDashboard("Customer");
+        showDashboard("Customer", customer.totalItems, customer.completedItems);
       } else {
         error.textContent = "Invalid email or password!";
       }
     }
 
-    function showDashboard(role) {
+    function showDashboard(role, totalItems, completedItems) {
       document.getElementById("login-section").classList.remove("active");
       document.getElementById("dashboard-section").classList.add("active");
 
       document.getElementById("dashboard-title").textContent = `Welcome, ${role}`;
-      document.getElementById("dashboard-content").innerHTML = role === "Admin"
-        ? "<p>This is the Admin Dashboard. You can manage inventory here.</p>"
-        : "<p>This is the Customer Dashboard. You can view products here.</p>";
+      document.getElementById("dashboard-content").innerHTML = `
+        <p>Total Items: ${totalItems}</p>
+        <p>Completed Items: ${completedItems}</p>
+      `;
     }
 
     function logout() {
