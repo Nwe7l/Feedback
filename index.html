@@ -81,7 +81,7 @@
         const aiResponse = await generateStoryContinuation(userInput);
         outputDiv.textContent += `\nAI: ${aiResponse}`;
 
-        // Clear input field and scroll to bottom
+        // Clear the input field and scroll to the bottom
         event.target.value = '';
         outputDiv.scrollTop = outputDiv.scrollHeight;
       }
