@@ -7,12 +7,14 @@
     body {
       background: black;
       color: limegreen;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: monospace;
       padding: 20px;
     }
     #output {
       white-space: pre-wrap;
       margin-bottom: 20px;
+      height: 400px;
+      overflow-y: auto;
     }
     input {
       background: black;
@@ -21,14 +23,12 @@
       padding: 10px;
       width: 100%;
       font-size: 18px;
-      font-family: 'Courier New', Courier, monospace;
     }
   </style>
 </head>
 <body>
-  <div id="output">YOU WAKE UP IN A FOREST.</div>
+  <div id="output"></div>
   <input id="input" type="text" placeholder=">> Your move..." autocomplete="off" />
-  
   <script src="script.js"></script>
 </body>
 </html>
