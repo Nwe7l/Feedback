@@ -29,6 +29,63 @@
 <body>
   <div id="output"></div>
   <input id="input" type="text" placeholder=">> Your move..." autocomplete="off" />
-  <script src="script.js"></script>
+  <script>
+    const outputDiv = document.getElementById("output");
+    const inputField = document.getElementById("input");
+
+    // API Call to OpenAI (You'll need to set up your OpenAI API key)
+    async function generateStoryContinuation(userInput) {
+      const apiKey = "YOUR_OPENAI_API_KEY";  // Replace with your OpenAI API key
+
+      const response = await fetch('https://api.openai.com/v1/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: "text-davinci-003",  // Choose the model you want to use
+          prompt: `You are a storyteller. Continue the story based on the following input:\n${userInput}\nStory continuation:`,
+          max_tokens: 150,
+          temperature: 0.7
+        })
+      });
+
+      const data = await response.json();
+      return data.choices[0].text.trim();
+    }
+
+    // Display the initial random story
+    const storyStarts = [
+      "You wake up in the woods.",
+      "You find yourself standing at the edge of a cliff.",
+      "A dense fog surrounds you as you step into the cave.",
+      "You're on a boat in the middle of a vast ocean."
+    ];
+    outputDiv.textContent = getRandomStoryStart();
+
+    function getRandomStoryStart() {
+      const randomIndex = Math.floor(Math.random() * storyStarts.length);
+      return storyStarts[randomIndex];
+    }
+
+    // Handle user input and story generation
+    inputField.addEventListener("keydown", async function (event) {
+      if (event.key === "Enter") {
+        const userInput = event.target.value;
+
+        // Display user input in the output
+        outputDiv.textContent += `\n>> ${userInput}`;
+
+        // Generate AI story continuation based on the user input
+        const aiResponse = await generateStoryContinuation(userInput);
+        outputDiv.textContent += `\nAI: ${aiResponse}`;
+
+        // Clear input field and scroll to bottom
+        event.target.value = '';
+        outputDiv.scrollTop = outputDiv.scrollHeight;
+      }
+    });
+  </script>
 </body>
 </html>
